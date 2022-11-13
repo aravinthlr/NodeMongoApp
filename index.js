@@ -3,17 +3,17 @@ const yourConnectionURI = "mongodb+srv://RameshAravinth:Aravinth29@cluster0.wo52
 const client = new MongoClient(yourConnectionURI);
 const express = require('express');
 const app = new express();
-const { networkInterfaces } = require('os');
-
-const nets = networkInterfaces();
-console.log(nets);
-const allData = {};
+const ip = require('ip');
+const port = 8084;
+//const localIp = ip.address()
+//console.log(results);
+let allData ={}
 app.get("/", function(req,res) {
     getPwdDbData();
     res.send(allData);
 });
-app.listen(8084,"172.20.10.13");
-console.log('Server running at http://127.0.0.1:8084/');
+app.listen(port);
+// console.log(`Server running at http://${localIp}:${port}/`);
 async function listDatabases(client){
     databasesList = await client.db().admin().listDatabases();
  
