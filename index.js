@@ -7,9 +7,20 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const app = new express();
 const ip = require('ip');
-const port = 8084;
+const port = 443;
 const localIp = ip.address();
 const verify = require('./verify');
+// let { SmartAPI, WebSocket } = require("smartapi-javascript");
+//const smartApiLogin = require('./smartApi/login');
+ 
+
+// let smart_api = new SmartAPI({
+//     api_key: "dK2Aay3K ",    // PROVIDE YOUR API KEY HERE
+//      // OPTIONAL : If user has valid access token and refresh token then it can be directly passed to the constructor. 
+//     // access_token: "YOUR_ACCESS_TOKEN",
+//     // refresh_token: "YOUR_REFRESH_TOKEN"
+// });
+// console.log(smart_api);
 
 dotenv.config({ path: 'config.env' });
 app.use(bodyParser.json());
@@ -27,7 +38,8 @@ app.post("/user/generateToken", async (req, res) => {
     }
   
     const token = jwt.sign(data, jwtSecretKey);
-  
+    console.log(smartApiLogin);
+    smartApiLogin();
     res.send(token);
   }
   else res.status(401).send('Invalid Credentials')
