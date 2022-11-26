@@ -4,7 +4,7 @@ const verify = (req,jwt) => {
         let jwtSecretKey = process.env.JWT_SECRET_KEY;
         const token = req.header(tokenHeaderKey);
         console.log(req.header);
-        return jwt.verify(token, jwtSecretKey);
+        return token && jwt.verify(token, jwtSecretKey);
 }
 
 module.exports = verify;

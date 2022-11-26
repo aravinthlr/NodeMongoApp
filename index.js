@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const app = new express();
 const ip = require('ip');
-const port = 443;
+const port = 8084;
 const localIp = ip.address();
 const verify = require('./verify');
 // let { SmartAPI, WebSocket } = require("smartapi-javascript");
@@ -29,6 +29,7 @@ app.post("/user/generateToken", async (req, res) => {
     // Then generate JWT Token
     
   const { userName, password } = req.body;
+  console.log(userName, password);
   const usersInfo = await client.db("AUTHENTICATION").collection("USERS").findOne();
   if(usersInfo.users.find(user => user.userName === userName && user.password === password)) {
     let jwtSecretKey = process.env.JWT_SECRET_KEY;
@@ -38,8 +39,8 @@ app.post("/user/generateToken", async (req, res) => {
     }
   
     const token = jwt.sign(data, jwtSecretKey);
-    console.log(smartApiLogin);
-    smartApiLogin();
+    // console.log(smartApiLogin);
+    // smartApiLogin();
     res.send(token);
   }
   else res.status(401).send('Invalid Credentials')
@@ -103,5 +104,6 @@ main().catch(console.error);
 //     }
 // });
 
-app.listen(port);
- console.log(`Server running at http://${localIp}:${port}/`);
+app.listen(process.env.PORT || port, function () {
+    console.log("SERVER STARTED PORT: ",port);
+});
