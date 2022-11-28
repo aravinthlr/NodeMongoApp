@@ -48,7 +48,25 @@ app.post("/user/generateToken", async (req, res) => {
 app.get("/copyData", function(req,res) {
     getCopyData(req, res);
 });
+app.get("/finance",function(req, res){
+    getFinanceData(req, res)
+})
 
+async function getFinanceData(req,res) {
+    try {
+    if(!verify(req,jwt)) res.status(401).send('UNAUTHORISED ACCESS');
+    const response = await client.db("Information").collection("Finance").findOne();
+    console.log({response});
+    res.send(response);
+    }
+    catch (e) {
+        console.error(e);
+    }
+    finally {
+        //await client.close();
+    }
+   // console.log(doc);
+}
 async function getCopyData(req,res) {
     try {
     if(!verify(req,jwt)) res.status(401).send('UNAUTHORISED ACCESS');
